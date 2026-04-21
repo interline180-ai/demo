@@ -1,0 +1,312 @@
+<!DOCTYPE html>
+<html lang="mn">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Сэтгэлийн цуурай</title>
+  <style>
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+      font-family: "Segoe UI", Arial, sans-serif;
+    }
+
+    body {
+      min-height: 100vh;
+      background: linear-gradient(135deg, #eef7f5, #dfeff2, #f8fbff);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 20px;
+      color: #234;
+    }
+
+    .container {
+      width: 100%;
+      max-width: 460px;
+      background: rgba(255, 255, 255, 0.82);
+      backdrop-filter: blur(10px);
+      border-radius: 24px;
+      padding: 32px 24px;
+      box-shadow: 0 10px 30px rgba(0, 0, 0, 0.08);
+      text-align: center;
+    }
+
+    .logo {
+      width: 72px;
+      height: 72px;
+      margin: 0 auto 18px;
+      border-radius: 50%;
+      background: linear-gradient(135deg, #9ed8d0, #7bb8d6);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 34px;
+      color: white;
+      box-shadow: 0 8px 18px rgba(123, 184, 214, 0.28);
+    }
+
+    h1 {
+      font-size: 30px;
+      margin-bottom: 10px;
+      color: #234b57;
+    }
+
+    .subtitle {
+      font-size: 15px;
+      color: #5b727a;
+      line-height: 1.6;
+      margin-bottom: 28px;
+    }
+
+    .question {
+      font-size: 18px;
+      font-weight: 600;
+      margin-bottom: 18px;
+      color: #2f5058;
+    }
+
+    .range-value {
+      font-size: 42px;
+      font-weight: bold;
+      color: #4d8a95;
+      margin-bottom: 14px;
+    }
+
+    input[type="range"] {
+      width: 100%;
+      accent-color: #6db6b0;
+      margin-bottom: 16px;
+      cursor: pointer;
+    }
+
+    .range-labels {
+      display: flex;
+      justify-content: space-between;
+      font-size: 13px;
+      color: #68828a;
+      margin-bottom: 22px;
+    }
+
+    button {
+      width: 100%;
+      padding: 14px;
+      border: none;
+      border-radius: 14px;
+      background: linear-gradient(135deg, #6db6b0, #78aeda);
+      color: white;
+      font-size: 16px;
+      font-weight: 600;
+      cursor: pointer;
+      transition: 0.25s ease;
+      box-shadow: 0 8px 20px rgba(109, 182, 176, 0.25);
+    }
+
+    button:hover {
+      transform: translateY(-2px);
+      opacity: 0.96;
+    }
+
+    .note {
+      margin-top: 18px;
+      font-size: 13px;
+      color: #70858c;
+      line-height: 1.6;
+    }
+
+    /* Modal */
+    .modal {
+      display: none;
+      position: fixed;
+      inset: 0;
+      background: rgba(22, 34, 42, 0.42);
+      align-items: center;
+      justify-content: center;
+      padding: 20px;
+      z-index: 1000;
+    }
+
+    .modal-content {
+      width: 100%;
+      max-width: 500px;
+      background: white;
+      border-radius: 22px;
+      padding: 30px 24px;
+      text-align: center;
+      box-shadow: 0 14px 40px rgba(0, 0, 0, 0.16);
+      animation: fadeUp 0.35s ease;
+    }
+
+    .modal-score {
+      display: inline-block;
+      margin-bottom: 12px;
+      background: #eef7f8;
+      color: #3f7f88;
+      padding: 8px 16px;
+      border-radius: 999px;
+      font-weight: 700;
+      font-size: 14px;
+    }
+
+    .modal h2 {
+      color: #284f5c;
+      margin-bottom: 14px;
+      font-size: 24px;
+    }
+
+    .quote {
+      font-size: 18px;
+      line-height: 1.8;
+      color: #45636b;
+      margin-bottom: 18px;
+      font-style: italic;
+    }
+
+    .extra {
+      font-size: 15px;
+      line-height: 1.7;
+      color: #60767d;
+      margin-bottom: 22px;
+    }
+
+    .close-btn {
+      width: auto;
+      padding: 12px 24px;
+      border-radius: 12px;
+    }
+
+    @keyframes fadeUp {
+      from {
+        opacity: 0;
+        transform: translateY(18px);
+      }
+      to {
+        opacity: 1;
+        transform: translateY(0);
+      }
+    }
+
+    @media (max-width: 480px) {
+      h1 {
+        font-size: 25px;
+      }
+
+      .container {
+        padding: 26px 18px;
+      }
+
+      .quote {
+        font-size: 16px;
+      }
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <div class="logo">☁</div>
+    <h1>Сэтгэлийн цуурай</h1>
+    <p class="subtitle">
+      Өнөөдрийн сэтгэлээ нэг агшин сонсоод үзээрэй.  
+      0–10 хооронд үнэлээд, өөрт тохирсон урам, дулаан үгийг аваарай.
+    </p>
+
+    <div class="question">Өнөөдөр чи өөрийгөө хэдэн оноо өгөх вэ?</div>
+    <div class="range-value" id="scoreValue">5</div>
+
+    <input type="range" id="scoreRange" min="0" max="10" value="5" />
+
+    <div class="range-labels">
+      <span>0 - Хэцүүхэн</span>
+      <span>10 - Маш сайхан</span>
+    </div>
+
+    <button onclick="showMessage()">Миний мессежийг харах</button>
+
+    <p class="note">
+      Чиний өгсөн үнэлгээнд тохирсон богинохон дэмжлэг, урам зориг өгөх үг гарч ирнэ.
+    </p>
+  </div>
+
+  <!-- Modal -->
+  <div class="modal" id="messageModal">
+    <div class="modal-content">
+      <div class="modal-score" id="modalScore">Оноо: 5</div>
+      <h2 id="modalTitle">Чамд зориулсан үг</h2>
+      <p class="quote" id="quoteText"></p>
+      <p class="extra" id="extraText"></p>
+      <button class="close-btn" onclick="closeModal()">Хаах</button>
+    </div>
+  </div>
+
+  <script>
+    const scoreRange = document.getElementById("scoreRange");
+    const scoreValue = document.getElementById("scoreValue");
+    const modal = document.getElementById("messageModal");
+    const modalScore = document.getElementById("modalScore");
+    const modalTitle = document.getElementById("modalTitle");
+    const quoteText = document.getElementById("quoteText");
+    const extraText = document.getElementById("extraText");
+
+    scoreRange.addEventListener("input", function () {
+      scoreValue.textContent = this.value;
+    });
+
+    function getMessageByScore(score) {
+      if (score <= 2) {
+        return {
+          title: "Өнөөдөр чамд зөөлөн хандах өдөр",
+          quote: "Чи яг одоо төгс байх албагүй. Зүгээр л өнөөдрийг давж гарахад хангалттай.",
+          extra: "Хэцүү санагдаж байвал өөрийгөө буруутгах хэрэггүй. Амьсгалаа удаан аваад, бага багаар урагшил. Чи ганцаараа биш."
+        };
+      } else if (score <= 4) {
+        return {
+          title: "Бага зэрэг амсхийхэд болно",
+          quote: "Зарим өдөр зүгээр л тэсэж үлдэх нь өөрөө ялалт байдаг.",
+          extra: "Өөртөө хатуу биш, эелдэг ханд. Чиний мэдэрч байгаа зүйлс бодит. Өнөөдөр багахан амралт, дулаан үг, тайван орчин чамд хэрэгтэй байж магадгүй."
+        };
+      } else if (score <= 6) {
+        return {
+          title: "Чи замдаа явж байна",
+          quote: "Урагшлах алхам бүр том байх албагүй, гол нь зогсохгүй байх.",
+          extra: "Өнөөдөр дунд зэрэг байсан ч зүгээр. Өөрийгөө анзаарч, багахан ч гэсэн өөртөө баяр хүргээрэй."
+        };
+      } else if (score <= 8) {
+        return {
+          title: "Эерэг байдлаа хадгалаарай",
+          quote: "Чиний дотор байгаа гэрэл өөрт чинь ч, бусдад ч нөлөөлдөг.",
+          extra: "Өнөөдрийн эрч хүчээ үргэлжлүүлээрэй. Чиний тайван, тогтуун байдал өөрөө хүч юм."
+        };
+      } else {
+        return {
+          title: "Өнөөдөр чи гэрэлтэж байна",
+          quote: "Аз жаргал бол төгс байдал биш, харин амьд мөчөө мэдэрч чаддаг байдал юм.",
+          extra: "Ийм өдрөө хадгал. Инээмсэглэлээ бусадтай хуваалц. Чиний сайхан энерги үнэ цэнтэй."
+        };
+      }
+    }
+
+    function showMessage() {
+      const score = parseInt(scoreRange.value);
+      const message = getMessageByScore(score);
+
+      modalScore.textContent = "Оноо: " + score;
+      modalTitle.textContent = message.title;
+      quoteText.textContent = "“" + message.quote + "”";
+      extraText.textContent = message.extra;
+
+      modal.style.display = "flex";
+    }
+
+    function closeModal() {
+      modal.style.display = "none";
+    }
+
+    window.addEventListener("click", function (e) {
+      if (e.target === modal) {
+        closeModal();
+      }
+    });
+  </script>
+</body>
+</html>
